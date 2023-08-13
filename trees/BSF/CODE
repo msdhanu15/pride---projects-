@@ -1,0 +1,88 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+class Trees {
+    private int X;
+    private LinkedList<Integer> mat[];
+
+    // constructor
+    Trees(int x) {
+        X = x;
+        mat = new LinkedList[x];
+        for (int i = 0; i < x; i++) {
+            mat[i] = new LinkedList();
+        }
+
+    }
+
+    void addEdge(int x, int y) {
+        mat[x].add(y);
+    }
+
+    void BFS(int s) {
+        boolean visited[] = new boolean[X];
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+
+        visited[s] = true;
+        queue.add(s);
+
+        while (queue.size() != 0) {
+            s = queue.poll();
+            System.out.print(s + " ");
+
+            Iterator<Integer> i = mat[s].listIterator();
+            while (i.hasNext()) {
+                int n = i.next();
+                if (!visited[n]) {
+                    visited[n] = true;
+                    queue.add(n);
+                }
+            }
+        }
+
+    }
+
+    void DFS(int x, boolean visited[]){
+        visited[x] = true;
+        System.out.print(x + " ");
+
+        Iterator <Integer> j = mat[x].listIterator();
+        while(j.hasNext()){
+            int m = j.next();
+            if(!visited[m]){
+                DFS(m, visited);
+            }
+        }
+    }
+
+    void recDFS(int x){
+        boolean visited[] = new boolean[X];
+        
+        DFS(x, visited);
+    }
+
+    public static void main(String[] args) {
+        Trees g = new Trees(14);
+        g.addEdge(0, 1);
+        g.addEdge(0, 2);
+        g.addEdge(1, 3);
+        g.addEdge(1, 4);
+        g.addEdge(2, 5);
+        g.addEdge(2, 6);
+        g.addEdge(3, 7);
+        g.addEdge(5, 9);
+        g.addEdge(6, 11);
+        g.addEdge(7, 8);
+        g.addEdge(9, 10);
+        g.addEdge(11, 13);
+        g.addEdge(10, 12);
+
+        System.out.println("BFS is " + "(Starting form vertex 0)");
+        g.BFS(0); 
+
+        System.out.println("\nDFS is " + "(Starting form vertex 0)");
+        g.recDFS(0);
+        
+    }
+}
